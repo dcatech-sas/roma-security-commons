@@ -1,6 +1,7 @@
 package com.dcatech.security.commons.models.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,10 +23,12 @@ public class MenuRole implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Menu.class)
-    @JoinColumn(name = "menu_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Menu.class )
+    @JoinColumn(name = "menu_id", nullable = false)
     private Menu menuId;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Role.class)
     @JoinColumn(name = "role_id")
     private Role roleId;

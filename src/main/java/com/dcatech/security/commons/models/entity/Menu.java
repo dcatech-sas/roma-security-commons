@@ -2,6 +2,8 @@ package com.dcatech.security.commons.models.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,20 +26,32 @@ public class Menu implements Serializable {
     private Long id;
 
     @Column(unique = true)
-    private String name;
+    private String label;
     private String description;
-    private String icon;
-    private Boolean status;
+    private String details;
+    private String routerLink;
+    private String iconType;
+    private String iconName;
+    private String toggle;
+    private String menuItemBasedOnId;
+    private Boolean visible;
     private Integer orden;
-    private String url;
 
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "submenus"})
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
-    @JsonBackReference
+    @JoinColumn(name="parent_menu_id")
     private Menu parentMenu;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "parentMenu"})
+    @OneToMany(mappedBy="parentMenu", fetch = FetchType.LAZY)
+    private List<Menu> submenu;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "menuId"})
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "menuId")
+    //@JoinColumn
     private List<MenuRole> menuRoles;
+
+
 
 }

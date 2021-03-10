@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class Usuario implements Serializable {
     private String nombre;
     private String apellido;
 
+    @Email(message = "el correo no es valido")
     @Column(unique = true, length = 100)
     private String email;
 
